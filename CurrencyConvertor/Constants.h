@@ -9,6 +9,12 @@
 #ifndef Constants_h
 #define Constants_h
 
+//Service constants
+#define HOST_NAME @"http://www.webservicex.net"
+#define HTTP_POST @"POST"
+#define HTTP_GET  @"GET"
+
+//Controller constants
 #define BGImage_Name @"Cuurency.jpg"
 #define Currency_Plist_Name @"currency_names.plist"
 #define Currency_Code @"USD"
