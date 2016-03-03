@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "DataModel.h"
 #import "ServiceHandler.h"
+#import "Constants.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate, ServiceHandlerDelegate>
 {
@@ -46,6 +47,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [self customIntialization];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,15 +60,15 @@
 - (void)customIntialization
 {
     //Set view background images
-    [self.view setBackgroundColor:[[UIColor colorWithPatternImage:[UIImage imageNamed:@"Cuurency.jpg"]] colorWithAlphaComponent:0.8]];
+    [self.view setBackgroundColor:[[UIColor colorWithPatternImage:[UIImage imageNamed:BGImage_Name]] colorWithAlphaComponent:0.8]];
     
-/*    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapOnView:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapOnView:)];
     tapGesture.numberOfTapsRequired = 1;
-    [_holderView addGestureRecognizer:tapGesture];*/
+    [_holderView addGestureRecognizer:tapGesture];
     
     [_dropDownTableView setSeparatorColor:[UIColor grayColor]];
-    currencyCode = @"USD";
-    anotherCurrencyCode = @"INR";
+    currencyCode = Currency_Code;
+    anotherCurrencyCode = Currency_Another_Code;
     [self formTableViewDataFromPlist];
 }
 
@@ -75,7 +77,7 @@
     tableDataArray = [[NSMutableArray alloc] init];
     
     //Read data from plist for Table view
-    NSMutableArray *plistData = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"currency_names" ofType:@"plist"]];
+    NSMutableArray *plistData = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:Currency_Plist_Name ofType:nil]];
     
     for (NSDictionary *dict in plistData)
     {
@@ -90,16 +92,17 @@
 
 - (void)dropDownFramingOfDropDownButton:(UIButton *)button andTableView:(UITableView *)tableView
 {
-    CGPoint origin = [self.view convertPoint:CGPointZero fromView:button];
-    if (button.selected)
+    CGPoint origin = [self.view convertPoint:button.frame.origin fromView:button.superview];
+    if (!button.selected)
     {
-        [_holderView bringSubviewToFront:tableView];
-        tableView.hidden = NO;
-        tableView.frame = CGRectMake(origin.x, origin.y+CGRectGetHeight(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(self.view.frame)-origin.y-100);
+        tableView.hidden = YES;
     }
     else
     {
-        tableView.hidden = YES;
+        [_holderView bringSubviewToFront:tableView];
+        [self.view bringSubviewToFront:tableView];
+        tableView.hidden = NO;
+        tableView.frame = CGRectMake(origin.x, origin.y+CGRectGetHeight(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(self.view.frame)-origin.y-50);
     }
 }
 
@@ -125,7 +128,7 @@
 
 - (void)singleTapOnView:(UITapGestureRecognizer *)tapGesture
 {
-    //[self resetDropDowns];
+    [self resetDropDowns];
 }
 
 #pragma mark TableView DataSource and Delegate methods
@@ -183,6 +186,7 @@
 - (IBAction)showCurrencyListDropDownOne:(UIButton *)sender
 {
     sender.selected = !sender.selected;
+    self.dropDownTableView.translatesAutoresizingMaskIntoConstraints = YES;
     self.anotherDropDownTableView.hidden = YES;
     [self dropDownFramingOfDropDownButton:sender andTableView:self.dropDownTableView];
 }
@@ -191,6 +195,8 @@
 {
     sender.selected = !sender.selected;
     self.dropDownTableView.hidden = YES;
+    self.anotherDropDownTableView.translatesAutoresizingMaskIntoConstraints = YES;
+
     [self dropDownFramingOfDropDownButton:sender andTableView:self.anotherDropDownTableView];
 }
 
@@ -297,9 +303,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         _toTextField.text = [NSString stringWithFormat:@"%@%f",[self currencySymbolsOfCurrencyCode:anotherCurrencyCode],finalValue];
         
-        _fromTextField.text = [NSString stringWithFormat:@"%@%d",[self currencySymbolsOfCurrencyCode:currencyCode],enteredValue];
+        _fromTextField.text = [NSString stringWithFormat:@"%@%ld",[self currencySymbolsOfCurrencyCode:currencyCode],(long)enteredValue];
         
-        self.displayLabel.text = [NSString stringWithFormat:@"%d %@ equals %f %@",enteredValue,_dropDownOneButton.titleLabel.text,finalValue,_dropDownTwoButton.titleLabel.text];
+        self.displayLabel.text = [NSString stringWithFormat:@"%ld %@ equals %f %@",(long)enteredValue,_dropDownOneButton.titleLabel.text,finalValue,_dropDownTwoButton.titleLabel.text];
     });
    
 }

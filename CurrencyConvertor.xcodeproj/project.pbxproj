@@ -40,6 +40,7 @@
 		65EAFCF71C821C0E005EF417 /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
 		65EAFCF91C836AE3005EF417 /* ServiceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceHandler.h; sourceTree = "<group>"; };
 		65EAFCFA1C836AE3005EF417 /* ServiceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceHandler.m; sourceTree = "<group>"; };
+		88D637641C8834E100D36C8E /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,11 +73,13 @@
 		650BDE401C818C1B00B850C0 /* CurrencyConvertor */ = {
 			isa = PBXGroup;
 			children = (
-				65EAFCF51C821BEA005EF417 /* Model */,
-				650BDE5B1C81C3CB00B850C0 /* Assets */,
-				650BDE5A1C818CB800B850C0 /* Interfaces */,
-				650BDE591C818C9400B850C0 /* Controller */,
 				650BDE581C818C7B00B850C0 /* AppDelegate */,
+				65EAFCF51C821BEA005EF417 /* Model */,
+				650BDE5A1C818CB800B850C0 /* View */,
+				650BDE591C818C9400B850C0 /* Controller */,
+				88D637601C8833E100D36C8E /* Constants */,
+				88D6375F1C8833D000D36C8E /* Services */,
+				650BDE5B1C81C3CB00B850C0 /* Assets */,
 				650BDE411C818C1B00B850C0 /* Supporting Files */,
 			);
 			path = CurrencyConvertor;
@@ -106,19 +109,17 @@
 			children = (
 				650BDE471C818C1B00B850C0 /* ViewController.h */,
 				650BDE481C818C1B00B850C0 /* ViewController.m */,
-				65EAFCF91C836AE3005EF417 /* ServiceHandler.h */,
-				65EAFCFA1C836AE3005EF417 /* ServiceHandler.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		650BDE5A1C818CB800B850C0 /* Interfaces */ = {
+		650BDE5A1C818CB800B850C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				650BDE4A1C818C1B00B850C0 /* Main.storyboard */,
 				650BDE4F1C818C1B00B850C0 /* LaunchScreen.storyboard */,
 			);
-			name = Interfaces;
+			name = View;
 			sourceTree = "<group>";
 		};
 		650BDE5B1C81C3CB00B850C0 /* Assets */ = {
@@ -139,6 +140,23 @@
 				65EAFCF71C821C0E005EF417 /* DataModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		88D6375F1C8833D000D36C8E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				65EAFCF91C836AE3005EF417 /* ServiceHandler.h */,
+				65EAFCFA1C836AE3005EF417 /* ServiceHandler.m */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		88D637601C8833E100D36C8E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				88D637641C8834E100D36C8E /* Constants.h */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
