@@ -10,7 +10,8 @@
 
 @protocol ServiceHandlerDelegate <NSObject>
 
-- (void)responseHandlerResponseDict:(NSDictionary *)jsonDict;
+- (void)handlerResponseDictForRest:(NSDictionary *)jsonDict;
+- (void)handlerResponseXmlForSoap:(NSString *)xmlData;
 
 @end
 
@@ -19,7 +20,12 @@
 @property (nonatomic, assign)id<ServiceHandlerDelegate> delegate;
 
 + (id)sharedManager;
+
+//REST services
 - (void)formGETRequestWithFromCurrency:(NSString *)fromCurrency ToCurrency:(NSString *)toCurrency;
 - (void)formPOSTRequestWithFromCurrency:(NSString *)fromCurrency ToCurrency:(NSString *)toCurrency;
+
+//SOAP services
+- (void)workingWithSOAPServicesFromCurrency:(NSString *)fromCurrency toCurrency:(NSString *)toCurrency;
 
 @end

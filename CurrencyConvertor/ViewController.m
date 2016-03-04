@@ -209,9 +209,14 @@
     serviceHandler = [ServiceHandler sharedManager];
     serviceHandler.delegate = self;
     
-    [serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
+    //REST METHODS
+    /*[serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
+    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];*/
     
-//    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
+    //SOAP METHODS
+    [serviceHandler workingWithSOAPServicesFromCurrency:currencyCode toCurrency:anotherCurrencyCode];
+    
+    
     [_fromTextField endEditing:YES];
     [_fromTextField resignFirstResponder];
 }
@@ -281,7 +286,7 @@
 
 #pragma mark Response Handler
 
-- (void)responseHandlerResponseDict:(NSDictionary *)jsonDict
+- (void)handlerResponseDictForRest:(NSDictionary *)jsonDict
 {
     NSString *errorString = [jsonDict valueForKey:@"error"];
     if (errorString != nil)
@@ -308,6 +313,16 @@
         self.displayLabel.text = [NSString stringWithFormat:@"%ld %@ equals %f %@",(long)enteredValue,_dropDownOneButton.titleLabel.text,finalValue,_dropDownTwoButton.titleLabel.text];
     });
    
+}
+
+- (void)handlerResponseXmlForSoap:(NSString *)xmlData
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Found" message:@"Some SOAP data found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    });
+    
+    NSLog(@"some SOAP data found %@",xmlData);
 }
 
 #pragma mark
