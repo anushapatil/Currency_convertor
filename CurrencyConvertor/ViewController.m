@@ -224,19 +224,12 @@
     serviceHandler.delegate = self;
     
     //REST METHODS
-<<<<<<< HEAD
     [serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
 //    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
     
     //SOAP METHODS
 //    [serviceHandler workingWithSOAPServicesFromCurrency:currencyCode toCurrency:anotherCurrencyCode];
-=======
-    /*[serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
-    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];*/
-    
-    //SOAP METHODS
-    [serviceHandler workingWithSOAPServicesFromCurrency:currencyCode toCurrency:anotherCurrencyCode];
->>>>>>> e7e3f37fc804b92337f8fed97e0f1f2574b26b68
+//    [serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
     
     
     [_fromTextField endEditing:YES];
@@ -343,10 +336,7 @@
 - (void)handlerResponseXmlForSoap:(NSString *)xmlData
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-<<<<<<< HEAD
         [self.indicator setHidden:YES];
-=======
->>>>>>> e7e3f37fc804b92337f8fed97e0f1f2574b26b68
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Found" message:@"Some SOAP data found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     });

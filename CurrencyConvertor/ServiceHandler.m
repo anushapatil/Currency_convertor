@@ -134,11 +134,7 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/CurrencyConvertor.asmx",HOST_NAME]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
-<<<<<<< HEAD
     NSString *soapMsgLength = [NSString stringWithFormat:@"%lu",(unsigned long)[soapMeassage length]];
-=======
-    NSString *soapMsgLength = [NSString stringWithFormat:@"%d",[soapMeassage length]];
->>>>>>> e7e3f37fc804b92337f8fed97e0f1f2574b26b68
     
     [request addValue:[NSString stringWithFormat:@"%@",HOST_NAME] forHTTPHeaderField:@"HOST"];
     [request addValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
@@ -171,11 +167,7 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/CurrencyConvertor.asmx",HOST_NAME]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
-<<<<<<< HEAD
     NSString *soapMsgLength = [NSString stringWithFormat:@"%lu",(unsigned long)[soapMeassage length]];
-=======
-    NSString *soapMsgLength = [NSString stringWithFormat:@"%d",[soapMeassage length]];
->>>>>>> e7e3f37fc804b92337f8fed97e0f1f2574b26b68
     
     [request addValue:[NSString stringWithFormat:@"%@",HOST_NAME] forHTTPHeaderField:@"HOST"];
     [request addValue:@"application/soap+xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
