@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *fromTextField;
 @property (weak, nonatomic) IBOutlet UITextField *toTextField;
 @property (weak, nonatomic) IBOutlet UILabel *displayLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 
 - (IBAction)fromTextFieldBeginEditing:(id)sender;
 - (IBAction)toTextFieldBeginEditing:(id)sender;
@@ -65,6 +66,7 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapOnView:)];
     tapGesture.numberOfTapsRequired = 1;
     [_holderView addGestureRecognizer:tapGesture];
+    [self.indicator setHidden:YES];
     
     [_dropDownTableView setSeparatorColor:[UIColor grayColor]];
     currencyCode = Currency_Code;
@@ -92,17 +94,25 @@
 
 - (void)dropDownFramingOfDropDownButton:(UIButton *)button andTableView:(UITableView *)tableView
 {
-    CGPoint origin = [self.view convertPoint:button.frame.origin fromView:button.superview];
+    CGPoint origin = [self.view convertPoint:CGPointZero fromView:button];
     if (!button.selected)
     {
         tableView.hidden = YES;
     }
     else
     {
+//        Animation block
+        
+//        [UIView animateKeyframesWithDuration:0.3 delay:0.1 options:2 animations:^{
+//        } completion:^(BOOL finished){
+//            
+//        }];
+        
         [_holderView bringSubviewToFront:tableView];
         [self.view bringSubviewToFront:tableView];
         tableView.hidden = NO;
-        tableView.frame = CGRectMake(origin.x, origin.y+CGRectGetHeight(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(self.view.frame)-origin.y-50);
+        tableView.frame = CGRectMake(origin.x, (origin.y+CGRectGetHeight(button.frame)), CGRectGetWidth(button.frame), CGRectGetHeight(self.view.frame)-origin.y);
+        
     }
 }
 
@@ -110,6 +120,7 @@
 {
     _dropDownOneButton.selected = _dropDownTwoButton.selected = !_dropDownOneButton.selected;
     _dropDownTableView.hidden = _anotherDropDownTableView.hidden = YES;
+    [_fromTextField resignFirstResponder];
 }
 
 #pragma mark Orientation methods
@@ -204,17 +215,20 @@
 {
     [self resetDropDowns];
     
+    [self.indicator setHidden:NO];
+    [self.indicator startAnimating];
+    
     self.displayLabel.text = @"";
     //Call service handler to get the converted values
     serviceHandler = [ServiceHandler sharedManager];
     serviceHandler.delegate = self;
     
     //REST METHODS
-    /*[serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
-    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];*/
+    [serviceHandler formGETRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
+//    [serviceHandler formPOSTRequestWithFromCurrency:currencyCode ToCurrency:anotherCurrencyCode];
     
     //SOAP METHODS
-    [serviceHandler workingWithSOAPServicesFromCurrency:currencyCode toCurrency:anotherCurrencyCode];
+//    [serviceHandler workingWithSOAPServicesFromCurrency:currencyCode toCurrency:anotherCurrencyCode];
     
     
     [_fromTextField endEditing:YES];
@@ -293,7 +307,8 @@
     {
         //Show alert in main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [self.indicator setHidden:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to convert, Please select different currency!!! :-)" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         });
         
@@ -306,6 +321,8 @@
     double finalValue = enteredValue*[value doubleValue];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.indicator setHidden:YES];
         _toTextField.text = [NSString stringWithFormat:@"%@%f",[self currencySymbolsOfCurrencyCode:anotherCurrencyCode],finalValue];
         
         _fromTextField.text = [NSString stringWithFormat:@"%@%ld",[self currencySymbolsOfCurrencyCode:currencyCode],(long)enteredValue];
@@ -318,6 +335,7 @@
 - (void)handlerResponseXmlForSoap:(NSString *)xmlData
 {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.indicator setHidden:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Found" message:@"Some SOAP data found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     });
